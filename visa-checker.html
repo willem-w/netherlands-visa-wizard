@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dutch Visa Eligibility Checker - Find Your Path to the Netherlands</title>
+    <meta name="description" content="Free visa eligibility checker for expats moving to the Netherlands. Get instant assessment for Dutch work visas, student visas, and family reunification.">
+    <style>
+        :root {
+            /* Dutch Government inspired color palette */
+            --background: hsl(240, 20%, 99%);
+            --foreground: hsl(210, 40%, 15%);
+            --card: hsl(0, 0%, 100%);
+            --card-foreground: hsl(210, 40%, 15%);
+            --primary: hsl(214, 85%, 45%);
+            --primary-foreground: hsl(0, 0%, 98%);
+            --secondary: hsl(25, 95%, 55%);
+            --secondary-foreground: hsl(0, 0%, 98%);
+            --muted: hsl(210, 40%, 96%);
+            --muted-foreground: hsl(215, 16%, 47%);
+            --accent: hsl(25, 95%, 55%);
+            --accent-foreground: hsl(0, 0%, 98%);
+            --border: hsl(214, 32%, 91%);
+            --input: hsl(214, 32%, 95%);
+            --success: hsl(142, 76%, 36%);
+            --success-foreground: hsl(0, 0%, 98%);
+            --warning: hsl(38, 92%, 50%);
+            --warning-foreground: hsl(0, 0%, 98%);
+            --destructive: hsl(0, 84%, 60%);
+            --destructive-foreground: hsl(0, 0%, 98%);
+            --radius: 0.75rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--muted);
+            border-radius: 4px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s ease;
+        }
+
+        .step-container {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .step-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .step-description {
+            color: var(--muted-foreground);
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--input);
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 32px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .btn-primary:hover {
+            background: hsl(214, 85%, 40%);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--foreground);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--muted);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .results-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .result-card {
+            margin-bottom: 24px;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .result-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .badge-likely {
+            background: var(--success);
+            color: var(--success-foreground);
+        }
+
+        .badge-uncertain {
+            background: var(--warning);
+            color: var(--warning-foreground);
+        }
+
+        .badge-not-eligible {
+            background: var(--destructive);
+            color: var(--destructive-foreground);
+        }
+
+        .requirements-list {
+            list-style: none;
+            margin: 16px 0;
+        }
+
+        .requirements-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        .requirements-list li::before {
+            content: '•';
+            color: var(--primary);
+            font-weight: bold;
+            margin-top: 2px;
+        }
+
+        .disclaimer {
+            background: var(--card);
+            border: 1px solid var(--warning);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-top: 32px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .disclaimer-icon {
+            color: var(--warning);
+            font-size: 1.25rem;
+            margin-top: 2px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .external-link {
+            text-decoration: none;
+        }
+
+        .separator {
+            height: 1px;
+            background: var(--border);
+            margin: 16px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .result-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>🇳🇱 Dutch Visa Eligibility Checker</h1>
+            <p>Find your path to living and working in the Netherlands</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <!-- Form Steps -->
+        <div id="formContainer" class="card">
+            <div class="step-container">
+                <div id="stepContent"></div>
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" onclick="prevStep()">Previous</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextStep()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div id="resultsContainer" class="hidden">
+            <div class="card">
+                <div style="text-align: center; margin-bottom: 32px;">
+                    <h2 style="font-size: 2rem; margin-bottom: 8px;">Your Visa Assessment Results</h2>
+                    <p style="color: var(--muted-foreground);">Based on your information, here are potential visa pathways for the Netherlands</p>
+                </div>
+            </div>
+            <div id="results" class="results-container"></div>
+            
+            <div class="disclaimer">
+                <div class="disclaimer-icon">⚠️</div>
+                <div>
+                    <h4 style="color: var(--warning); margin-bottom: 8px;">Important Disclaimer</h4>
+                    <p style="font-size: 0.875rem; color: var(--muted-foreground);">
+                        This assessment provides preliminary guidance only and does not constitute legal advice. 
+                        Immigration rules are complex and subject to change. Always verify requirements with the 
+                        <a href="https://ind.nl/en/" target="_blank" style="color: var(--primary);">official IND website</a> 
+                        or consult with a qualified immigration lawyer.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Application state
+        let currentStep = 1;
+        const totalSteps = 6;
+        let formData = {
+            nationality: "",
+            employmentStatus: "",
+            educationLevel: "",
+            familySituation: "",
+            purposeOfStay: "",
+            duration: ""
+        };
+
+        // Step configurations
+        const steps = {
+            1: {
+                icon: "👥",
+                title: "What is your nationality?",
+                description: "This helps determine visa requirements",
+                field: "nationality",
+                options: [
+                    { value: "eu", label: "EU/EEA Citizen" },
+                    { value: "us", label: "United States" },
+                    { value: "uk", label: "United Kingdom" },
+                    { value: "canada", label: "Canada" },
+                    { value: "australia", label: "Australia" },
+                    { value: "india", label: "India" },
+                    { value: "china", label: "China" },
+                    { value: "brazil", label: "Brazil" },
+                    { value: "other", label: "Other" }
+                ]
+            },
+            2: {
+                icon: "💼",
+                title: "What is your employment status?",
+                description: "Current work situation",
+                field: "employmentStatus",
+                options: [
+                    { value: "employed", label: "Employed" },
+                    { value: "self_employed", label: "Self-employed" },
+                    { value: "student", label: "Student" },
+                    { value: "unemployed", label: "Unemployed" },
+                    { value: "retired", label: "Retired" }
+                ]
+            },
+            3: {
+                icon: "🎓",
+                title: "What is your education level?",
+                description: "Highest qualification completed",
+                field: "educationLevel",
+                options: [
+                    { value: "phd", label: "PhD/Doctorate" },
+                    { value: "masters", label: "Master's Degree" },
+                    { value: "bachelors", label: "Bachelor's Degree" },
+                    { value: "vocational", label: "Vocational Training" },
+                    { value: "high_school", label: "High School" },
+                    { value: "other", label: "Other" }
+                ]
+            },
+            4: {
+                icon: "👨‍👩‍👧‍👦",
+                title: "What is your family situation?",
+                description: "Family ties to the Netherlands",
+                field: "familySituation",
+                options: [
+                    { value: "partner_nl", label: "Partner lives in Netherlands" },
+                    { value: "family_nl", label: "Family members in Netherlands" },
+                    { value: "children_nl", label: "Children in Netherlands" },
+                    { value: "none", label: "No family ties" }
+                ]
+            },
+            5: {
+                icon: "📋",
+                title: "What is your purpose of stay?",
+                description: "Main reason for moving to Netherlands",
+                field: "purposeOfStay",
+                options: [
+                    { value: "work", label: "Work" },
+                    { value: "study", label: "Study" },
+                    { value: "family", label: "Family reunification" },
+                    { value: "entrepreneurship", label: "Start a business" },
+                    { value: "other", label: "Other/Tourism" }
+                ]
+            },
+            6: {
+                icon: "⏰",
+                title: "How long do you plan to stay?",
+                description: "Intended duration of stay",
+                field: "duration",
+                options: [
+                    { value: "short", label: "Less than 90 days" },
+                    { value: "medium", label: "3 months to 1 year" },
+                    { value: "long", label: "More than 1 year" },
+                    { value: "permanent", label: "Permanent residence" }
+                ]
+            }
+        };
+
+        // Initialize the app
+        function init() {
+            updateProgress();
+            renderStep();
+            updateButtons();
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Render current step
+        function renderStep() {
+            const step = steps[currentStep];
+            const stepContent = document.getElementById('stepContent');
+            
+            stepContent.innerHTML = `
+                <div class="step-icon">${step.icon}</div>
+                <h3 class="step-title">${step.title}</h3>
+                <p class="step-description">${step.description}</p>
+                <div class="form-group">
+                    <label class="form-label" for="${step.field}">${step.title.replace('What is your ', '').replace('?', '')}</label>
+                    <select class="form-select" id="${step.field}" onchange="updateFormData('${step.field}', this.value)">
+                        <option value="">Select an option</option>
+                        ${step.options.map(option => 
+                            `<option value="${option.value}" ${formData[step.field] === option.value ? 'selected' : ''}>${option.label}</option>`
+                        ).join('')}
+                    </select>
+                </div>
+            `;
+        }
+
+        // Update form data
+        function updateFormData(field, value) {
+            formData[field] = value;
+            updateButtons();
+        }
+
+        // Update button states
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const step = steps[currentStep];
+            
+            prevBtn.style.display = currentStep === 1 ? 'none' : 'inline-flex';
+            
+            const isCurrentStepValid = formData[step.field] !== "";
+            nextBtn.disabled = !isCurrentStepValid;
+            
+            if (currentStep === totalSteps) {
+                nextBtn.textContent = 'Get Results';
+            } else {
+                nextBtn.textContent = 'Next';
+            }
+        }
+
+        // Navigate to next step
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateProgress();
+                renderStep();
+                updateButtons();
+            } else {
+                assessEligibility();
+            }
+        }
+
+        // Navigate to previous step
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateProgress();
+                renderStep();
+                updateButtons();
+            }
+        }
+
+        // Assess visa eligibility
+        function assessEligibility() {
+            const visaResults = [];
+
+            // Highly Skilled Migrant Visa
+            if (formData.purposeOfStay === "work" && 
+                (formData.educationLevel === "masters" || formData.educationLevel === "bachelors")) {
+                visaResults.push({
+                    name: "Highly Skilled Migrant Visa",
+                    eligibility: "likely",
+                    explanation: "You appear to meet the basic criteria for the Highly Skilled Migrant scheme based on your education and purpose.",
+                    requirements: [
+                        "Recognized sponsor employer",
+                        "Salary threshold: €3,909/month (under 30) or €5,331/month (30+)",
+                        "Relevant education credentials",
+                        "Employment contract"
+                    ],
+                    officialLink: "https://ind.nl/en/work/working_in_the_Netherlands/Pages/Highly-skilled-migrant.aspx"
+                });
+            }
+
+            // Student Visa
+            if (formData.purposeOfStay === "study") {
+                visaResults.push({
+                    name: "Student Visa (MVV)",
+                    eligibility: "likely",
+                    explanation: "You can apply for a student visa if accepted by a Dutch educational institution.",
+                    requirements: [
+                        "Admission to recognized Dutch institution",
+                        "Proof of sufficient funds (€11,000+ per year)",
+                        "Health insurance",
+                        "Clean criminal record"
+                    ],
+                    officialLink: "https://ind.nl/en/study/Pages/Study-in-the-Netherlands.aspx"
+                });
+            }
+
+            // Family Reunification
+            if (formData.familySituation === "partner_nl" || formData.familySituation === "family_nl") {
+                visaResults.push({
+                    name: "Family Reunification Visa",
+                    eligibility: "likely",
+                    explanation: "You may be eligible for family reunification based on your family ties in the Netherlands.",
+                    requirements: [
+                        "Family member with Dutch residence",
+                        "Proof of relationship",
+                        "Sufficient income of sponsor",
+                        "Suitable accommodation"
+                    ],
+                    officialLink: "https://ind.nl/en/family/Pages/Family-reunification.aspx"
+                });
+            }
+
+            // Entrepreneur Visa
+            if (formData.purposeOfStay === "entrepreneurship") {
+                visaResults.push({
+                    name: "Startup Visa",
+                    eligibility: formData.educationLevel === "masters" ? "likely" : "uncertain",
+                    explanation: "You may qualify for the startup visa if you have an innovative business idea.",
+                    requirements: [
+                        "Innovative business plan",
+                        "Facilitator approval",
+                        "€4,500 in funds",
+                        "Relevant experience or education"
+                    ],
+                    officialLink: "https://ind.nl/en/work/working_in_the_Netherlands/Pages/Startup.aspx"
+                });
+            }
+
+            // Orientation Year
+            if (formData.educationLevel === "masters" && formData.purposeOfStay === "work") {
+                visaResults.push({
+                    name: "Orientation Year for Graduates",
+                    eligibility: "likely",
+                    explanation: "Recent graduates can apply for an orientation year to search for work.",
+                    requirements: [
+                        "Graduation within 3 years",
+                        "Degree from top 200 university or Dutch institution",
+                        "Sufficient funds",
+                        "Health insurance"
+                    ],
+                    officialLink: "https://ind.nl/en/work/working_in_the_Netherlands/Pages/Looking-for-a-job-after-study-orientation-year.aspx"
+                });
+            }
+
+            // Tourist/Short Stay
+            if (formData.duration === "short" && formData.purposeOfStay === "other") {
+                visaResults.push({
+                    name: "Short Stay (Schengen) Visa",
+                    eligibility: "likely",
+                    explanation: "For stays up to 90 days within 180 days for tourism or business.",
+                    requirements: [
+                        "Valid passport",
+                        "Travel insurance",
+                        "Proof of accommodation",
+                        "Return ticket"
+                    ],
+                    officialLink: "https://ind.nl/en/short-stay/Pages/Short-stay.aspx"
+                });
+            }
+
+            if (visaResults.length === 0) {
+                visaResults.push({
+                    name: "No Clear Match",
+                    eligibility: "uncertain",
+                    explanation: "Based on your inputs, we couldn't identify a clear visa pathway. Consider consulting with an immigration lawyer.",
+                    requirements: [
+                        "Consult immigration expert",
+                        "Review all visa categories",
+                        "Consider alternative pathways"
+                    ],
+                    officialLink: "https://ind.nl/en/"
+                });
+            }
+
+            displayResults(visaResults);
+        }
+
+        // Display results
+        function displayResults(results) {
+            document.getElementById('formContainer').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.remove('hidden');
+            
+            const resultsContainer = document.getElementById('results');
+            
+            resultsContainer.innerHTML = results.map(result => `
+                <div class="card result-card">
+                    <div class="result-header">
+                        <div class="result-title">
+                            ${getEligibilityIcon(result.eligibility)}
+                            <span>${result.name}</span>
+                        </div>
+                        <div class="badge badge-${result.eligibility}">
+                            ${getEligibilityText(result.eligibility)}
+                        </div>
+                    </div>
+                    <p style="margin-bottom: 16px; color: var(--muted-foreground);">${result.explanation}</p>
+                    <div>
+                        <h4 style="font-weight: 600; margin-bottom: 12px;">Key Requirements:</h4>
+                        <ul class="requirements-list">
+                            ${result.requirements.map(req => `<li>${req}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div class="separator"></div>
+                    <a href="${result.officialLink}" target="_blank" rel="noopener noreferrer" class="btn btn-outline external-link">
+                        🔗 Official IND Information
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        // Helper functions
+        function getEligibilityIcon(eligibility) {
+            switch (eligibility) {
+                case "likely":
+                    return "✅";
+                case "uncertain":
+                    return "⚠️";
+                case "not_eligible":
+                    return "❌";
+                default:
+                    return "⚠️";
+            }
+        }
+
+        function getEligibilityText(eligibility) {
+            switch (eligibility) {
+                case "likely":
+                    return "Likely Eligible";
+                case "uncertain":
+                    return "Uncertain";
+                case "not_eligible":
+                    return "Not Eligible";
+                default:
+                    return "Uncertain";
+            }
+        }
+
+        // Start the application
+        init();
+    </script>
+</body>
+</html>
